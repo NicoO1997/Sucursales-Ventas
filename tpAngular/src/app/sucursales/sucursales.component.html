@@ -1,0 +1,71 @@
+<!-- sucursales.component.html -->
+<div class="container mt-4">
+        <h2>Gestión de Sucursales</h2>
+        
+        <button class="btn btn-primary mb-3" (click)="abrirModal()">
+          Nueva Sucursal
+        </button>
+      
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Dirección</th>
+              <th>Cantidad Empleados</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sucursal of sucursales">
+              <td>{{sucursal.id}}</td>
+              <td>{{sucursal.nombre}}</td>
+              <td>{{sucursal.direccion}}</td>
+              <td>{{sucursal.cantidadEmpleados}}</td>
+              <td>
+                <button class="btn btn-sm btn-info me-2" (click)="abrirModal(sucursal)">
+                  Editar
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="eliminarSucursal(sucursal.id)">
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- Modal personalizado -->
+      <div class="modal" [class.show]="modalVisible$ | async" [style.display]="(modalVisible$ | async) ? 'block' : 'none'" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">{{modoEdicion ? 'Editar' : 'Nueva'}} Sucursal</h4>
+              <button type="button" class="btn-close" (click)="cerrarModal()"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="mb-3">
+                  <label for="nombre" class="form-label">Nombre</label>
+                  <input type="text" class="form-control" id="nombre" [(ngModel)]="nuevaSucursal.nombre" name="nombre">
+                </div>
+                <div class="mb-3">
+                  <label for="direccion" class="form-label">Dirección</label>
+                  <input type="text" class="form-control" id="direccion" [(ngModel)]="nuevaSucursal.direccion" name="direccion">
+                </div>
+                <div class="mb-3">
+                  <label for="cantidadEmpleados" class="form-label">Cantidad de Empleados</label>
+                  <input type="number" class="form-control" id="cantidadEmpleados" [(ngModel)]="nuevaSucursal.cantidadEmpleados" name="cantidadEmpleados">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+              <button type="button" class="btn btn-primary" (click)="guardarSucursal()">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Backdrop para el modal -->
+      <div class="modal-backdrop fade show" *ngIf="modalVisible$ | async"></div>

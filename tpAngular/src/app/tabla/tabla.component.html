@@ -1,0 +1,55 @@
+<div *ngIf="cargando" class="loading">
+  Cargando datos...
+</div>
+
+<table *ngIf="!cargando" class="table">
+  <thead>
+    <tr>
+      <th>Meses</th>
+      <th *ngFor="let sucursal of sucursales">
+        {{ sucursal }}
+      </th>
+      <th>Total Mensual</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <tr *ngFor="let mes of meses; let i = index">
+      <th>{{ mes }}</th>
+      <td *ngFor="let dato of datos[i]; let j = index" 
+          (click)="onCellClick(i, j)"
+          [class.editing]="editState.isEditing && editState.rowIndex === i && editState.colIndex === j">
+        <ng-container *ngIf="!(editState.isEditing && editState.rowIndex === i && editState.colIndex === j); else editTemplate">
+          {{ dato | number:'1.0-0' }}
+        </ng-container>
+        <ng-template #editTemplate>
+          <div class="edit-container">
+            <input type="number" 
+                   [(ngModel)]="editState.value" 
+                   class="edit-input"
+                   (click)="$event.stopPropagation()">
+            <div class="edit-buttons">
+              <button (click)="confirmarEdit(); $event.stopPropagation()" class="btn-confirm">✓</button>
+              <button (click)="cancelEdit(); $event.stopPropagation()" class="btn-cancel">✗</button>
+            </div>
+          </div>
+        </ng-template>
+      </td>
+      <th>{{ totalMensual[i] | number:'1.0-0' }}</th>
+    </tr>
+  </tbody>
+  
+  <tfoot>
+    <tr class="total-row">
+      <th>Total Anual</th>
+      <th *ngFor="let total of totalAnual">
+        {{ total | number:'1.0-0' }}
+      </th>
+      <th>{{ sumaTotalAnual | number:'1.0-0' }}</th>
+    </tr>
+  </tfoot>
+</table>
+
+<p *ngIf="max !== undefined && maxApiladas !== undefined">
+  {{ max }} - {{ maxApiladas }}
+</p>

@@ -1,0 +1,16 @@
+  .register-container input {
+    width: 100%;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    box-sizing: border-box;
+  }
+  
+  .register-container button {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+  

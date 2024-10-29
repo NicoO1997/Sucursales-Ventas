@@ -1,0 +1,25 @@
+.graficos-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .grafico {
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-top: 120px;
+  }
+  
+  .grafico h2 {
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+  }
+  
+  :host ::ng-deep .ngx-charts {
+    float: none;
+    display: block;
+  }

@@ -1,0 +1,60 @@
+<div class="graficos-container">
+    <!-- Gráfico de Línea -->
+    <div class="grafico">
+      <h2>Ventas por Sucursal (Línea)</h2>
+      <ngx-charts-line-chart
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="datosLinea"
+        [legend]="legend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxis]="xAxis"
+        [yAxis]="yAxis"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        (select)="onSelect($event)"
+        (window:resize)="onResize($event)">
+      </ngx-charts-line-chart>
+    </div>
+  
+    <!-- Gráfico de Barras -->
+    <div class="grafico">
+      <h2>Ventas por Mes (Barras)</h2>
+      <ngx-charts-bar-vertical-2d
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="datosBarra"
+        [gradient]="false"
+        [xAxis]="xAxis"
+        [yAxis]="yAxis"
+        [legend]="legend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        (select)="onSelect($event)"
+        (window:resize)="onResize($event)">
+      </ngx-charts-bar-vertical-2d>
+    </div>
+  
+    <!-- Gráfico de Barras Apiladas -->
+    <div class="grafico">
+        <h2>Ventas Acumuladas por Mes (Barras Apiladas)</h2>
+        <ngx-charts-bar-vertical-stacked
+          [view]="view"
+          [scheme]="colorScheme"
+          [results]="datosBarraApilada"
+          [gradient]="false"
+          [xAxis]="xAxis"
+          [yAxis]="yAxis"
+          [legend]="legend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"
+          [showDataLabel]="true"
+          (select)="onSelect($event)">
+        </ngx-charts-bar-vertical-stacked>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="container mt-4">
+    <h2>Gestión de Clientes</h2>
+  
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Apellido</th>
+          <th>Nombre</th>
+          <th>Saldo</th>
+          <th>Estatus</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cliente of clientes">
+          <td>{{cliente.Apellido}}</td>
+          <td>{{cliente.Nombre}}</td>
+          <td>${{cliente.Saldo}}</td>
+          <td *ngIf='cliente.Status == 1'>✅</td>
+          <td *ngIf='cliente.Status == 0'>❌</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
