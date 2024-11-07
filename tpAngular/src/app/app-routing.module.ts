@@ -16,7 +16,7 @@ const routes: Routes = [
   { 
     path: 'login', 
     component: LoginComponent,
-    canActivate: [PublicGuard] // Solo accesible si NO está logueado
+    canActivate: [PublicGuard]
   },
   { 
     path: 'registro', 
@@ -28,7 +28,6 @@ const routes: Routes = [
     component: InicioComponent 
   },
   
-  // Rutas protegidas para usuarios logueados
   { 
     path: 'tabla', 
     component: TablaBotonesComponent,
@@ -47,7 +46,7 @@ const routes: Routes = [
   { 
     path: 'clientes', 
     component: ClientesComponent,
-    canActivate: [AuthGuard, AdminGuard] // Solo admin puede acceder
+    canActivate: [AuthGuard, AdminGuard]
   },
   { 
     path: '', 

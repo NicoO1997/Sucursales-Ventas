@@ -23,7 +23,7 @@ export class AuthService {
   private userSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
   user$: Observable<User | null> = this.userSubject.asObservable();
   
-  private adminEmails: string[] = ['gonzalobianchini70@gmail.com']; 
+  private adminEmails: string[] = ['gonzalobianchini70@gmail.com', 'nicol4cho1997@gmail.com']; 
 
   constructor() {
     this.auth.onAuthStateChanged(user => {
