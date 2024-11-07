@@ -1,16 +1,38 @@
-<!-- <app-tabla-botones></app-tabla-botones>
-<app-grafico></app-grafico> -->
 <header>
-        <nav>
-                <a routerLink="/inicio">Inicio</a>
-                <a routerLink="/clientes">Clientes</a>
-                <a routerLink="/sucursales">Nuestras Sucursales</a>
-                <a routerLink="/tabla">Ventas</a>
-                <a routerLink="/grafico">Grafico de ventas</a>
-                <a routerLink="/login">Login</a>
-                <a routerLink="/registro">Registro</a>
-        </nav>
+  <nav>
+    <!-- Siempre visible -->
+    <a routerLink="/inicio">Inicio</a>
+
+    <!-- Solo visible si NO está logueado -->
+    <ng-container *ngIf="(auth.user$ | async) === null">
+      <a routerLink="/login">Login</a>
+      <a routerLink="/registro">Registro</a>
+    </ng-container>
+
+    <!-- Solo visible si está logueado -->
+    <ng-container *ngIf="auth.user$ | async as user">
+      <!-- Enlaces para usuarios normales y admin -->
+      <a routerLink="/sucursales">Nuestras Sucursales</a>
+      <a routerLink="/tabla">Ventas</a>
+      <a routerLink="/grafico">Grafico de ventas</a>
+
+      <!-- Solo visible para admin -->
+      <ng-container *ngIf="auth.isAdmin(user)">
+        <a routerLink="/clientes">Clientes</a>
+      </ng-container>
+
+      <!-- Botón de logout -->
+      <a href="javascript:void(0)" (click)="logout()">Cerrar Sesión</a>
+
+      <!-- Opcional: mostrar información del usuario -->
+      <span class="user-info">
+        <img [src]="user.photoURL" *ngIf="user.photoURL" alt="Avatar" class="avatar">
+        {{ user.displayName || user.email }}
+      </span>
+    </ng-container>
+  </nav>
 </header>
+
 <main>
-        <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </main>

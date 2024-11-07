@@ -8,15 +8,52 @@ import { ClientesComponent } from './clientes/clientes.component';
 import { LoginComponent } from './login/login.component';
 import { RegistroComponent } from './registro/registro.component';
 
+import { AuthGuard } from './auth-guard.guard';
+import { AdminGuard } from './admin-guard.guard';
+import { PublicGuard } from './public-guard.guard';
+
 const routes: Routes = [
-  { path: 'tabla', component: TablaBotonesComponent },
-  { path: 'grafico', component: GraficoComponent },
-  { path: 'sucursales', component: SucursalesComponent},
-  { path: 'inicio', component: InicioComponent},
-  { path: 'clientes', component: ClientesComponent},
-  { path: 'login', component: LoginComponent},
-  { path: 'registro', component: RegistroComponent},
-  { path: '', redirectTo: '/inicio', pathMatch: 'full' },
+  { 
+    path: 'login', 
+    component: LoginComponent,
+    canActivate: [PublicGuard] // Solo accesible si NO está logueado
+  },
+  { 
+    path: 'registro', 
+    component: RegistroComponent,
+    canActivate: [PublicGuard]
+  },
+  { 
+    path: 'inicio', 
+    component: InicioComponent 
+  },
+  
+  // Rutas protegidas para usuarios logueados
+  { 
+    path: 'tabla', 
+    component: TablaBotonesComponent,
+    canActivate: [AuthGuard]
+  },
+  { 
+    path: 'grafico', 
+    component: GraficoComponent,
+    canActivate: [AuthGuard]
+  },
+  { 
+    path: 'sucursales', 
+    component: SucursalesComponent,
+    canActivate: [AuthGuard]
+  },
+  { 
+    path: 'clientes', 
+    component: ClientesComponent,
+    canActivate: [AuthGuard, AdminGuard] // Solo admin puede acceder
+  },
+  { 
+    path: '', 
+    redirectTo: '/inicio', 
+    pathMatch: 'full' 
+  },
 ];
 
 @NgModule({

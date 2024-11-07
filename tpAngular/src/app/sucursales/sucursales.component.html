@@ -2,7 +2,7 @@
 <div class="container mt-4">
         <h2>Gestión de Sucursales</h2>
         
-        <button class="btn btn-primary mb-3" (click)="abrirModal()">
+        <button *ngIf="isAdmin" class="btn btn-primary mb-3" (click)="abrirModal()">
           Nueva Sucursal
         </button>
       
@@ -13,7 +13,7 @@
               <th>Nombre</th>
               <th>Dirección</th>
               <th>Cantidad Empleados</th>
-              <th>Acciones</th>
+              <th *ngIf="isAdmin">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -23,10 +23,10 @@
               <td>{{sucursal.direccion}}</td>
               <td>{{sucursal.cantidadEmpleados}}</td>
               <td>
-                <button class="btn btn-sm btn-info me-2" (click)="abrirModal(sucursal)">
+                <button *ngIf="isAdmin" class="btn btn-sm btn-info me-2" (click)="abrirModal(sucursal)">
                   Editar
                 </button>
-                <button class="btn btn-sm btn-danger" (click)="eliminarSucursal(sucursal.id)">
+                <button *ngIf="isAdmin" class="btn btn-sm btn-danger" (click)="eliminarSucursal(sucursal.id)">
                   Eliminar
                 </button>
               </td>

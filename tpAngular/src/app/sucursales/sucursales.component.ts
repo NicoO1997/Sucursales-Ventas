@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SucursalesService } from '../sucursales.service';
 import { ModalService } from '../modal.service';
+import { AuthService, User } from '../auth.service';
 
 interface Sucursal {
   id: number;
@@ -27,14 +28,19 @@ export class SucursalesComponent implements OnInit {
     cantidadEmpleados: 0
   };
   modalVisible$ = this.modalService.display$;
+  isAdmin: boolean = false;
 
   constructor(
     private sucursalService: SucursalesService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.cargarSucursales();
+    this.authService.user$.subscribe((user) => {
+      this.isAdmin = this.authService.isAdmin(user);
+    });
   }
 
   cargarSucursales() {
@@ -49,14 +55,18 @@ export class SucursalesComponent implements OnInit {
   }
 
   abrirModal(sucursal?: Sucursal) {
-    this.modoEdicion = !!sucursal;
-    if (sucursal) {
-      this.sucursalSeleccionada = sucursal;
-      this.nuevaSucursal = { ...sucursal };
+    if (this.isAdmin) {
+      this.modoEdicion = !!sucursal;
+      if (sucursal) {
+        this.sucursalSeleccionada = sucursal;
+        this.nuevaSucursal = { ...sucursal };
+      } else {
+        this.resetForm();
+      }
+      this.modalService.open();
     } else {
-      this.resetForm();
+      alert('No tienes permisos para editar sucursales');
     }
-    this.modalService.open();
   }
 
   cerrarModal() {
@@ -65,33 +75,42 @@ export class SucursalesComponent implements OnInit {
   }
 
   guardarSucursal() {
-    if (this.nuevaSucursal.nombre.trim() && this.nuevaSucursal.direccion.trim()) {
-      const operacion = this.modoEdicion
-        ? this.sucursalService.actualizarSucursal(this.nuevaSucursal)
-        : this.sucursalService.agregarSucursal(this.nuevaSucursal);
+    if (this.isAdmin) {
 
-      operacion.subscribe({
-        next: (response) => {
-          this.cargarSucursales();
-          this.cerrarModal();
-        },
-        error: (error) => {
-          console.error('Error:', error);
-        }
-      });
+      if (this.nuevaSucursal.nombre.trim() && this.nuevaSucursal.direccion.trim()) {
+        const operacion = this.modoEdicion
+          ? this.sucursalService.actualizarSucursal(this.nuevaSucursal)
+          : this.sucursalService.agregarSucursal(this.nuevaSucursal);
+  
+        operacion.subscribe({
+          next: (response) => {
+            this.cargarSucursales();
+            this.cerrarModal();
+          },
+          error: (error) => {
+            console.error('Error:', error);
+          }
+        });
+      }
+    } else {
+      alert('No tienes permisos para editar sucursales');
     }
   }
 
   eliminarSucursal(id: number) {
-    if (confirm('¿Estás seguro de que deseas eliminar esta sucursal?')) {
-      this.sucursalService.eliminarSucursal(id).subscribe({
-        next: () => {
-          this.cargarSucursales();
-        },
-        error: (error) => {
-          console.error('Error al eliminar:', error);
-        }
-      });
+    if (this.isAdmin) {
+      if (confirm('¿Estás seguro de que deseas eliminar esta sucursal?')) {
+        this.sucursalService.eliminarSucursal(id).subscribe({
+          next: () => {
+            this.cargarSucursales();
+          },
+          error: (error) => {
+            console.error('Error al eliminar:', error);
+          }
+        });
+      }
+    } else{
+      alert('No tienes permisos para eliminar sucursales');
     }
   }
 

@@ -1,25 +1,31 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html'
+  template: `
+    <div class="login-container">
+      <h2>Iniciar Sesión</h2>
+      <button (click)="loginWithGoogle()" class="google-btn">
+        Iniciar sesión con Google
+      </button>
+    </div>
+  `
 })
 export class LoginComponent {
-  username = '';
-  password = '';
-  message = '';
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-  constructor(private authService: AuthService) { }
-
-  onSubmit() {
-    this.authService.login(this.username, this.password).subscribe(response => {
-      if (response.status === 'success') {
-        this.message = 'Login successful';
-        // Guarda el token o redirige al usuario
-      } else {
-        this.message = response.message;
-      }
-    });
+  async loginWithGoogle() {
+    try {
+      await this.authService.loginWithGoogle();
+      this.router.navigate(['/inicio']);
+    } catch (error) {
+      console.error('Error al iniciar sesión:', error);
+      // Aquí puedes mostrar un mensaje de error al usuario
+    }
   }
 }

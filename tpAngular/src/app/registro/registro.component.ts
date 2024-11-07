@@ -1,17 +1,31 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registro',
-  templateUrl: './registro.component.html',
-  styleUrl: './registro.component.css'
+  template: `
+    <div class="registro-container">
+      <h2>Registro</h2>
+      <button (click)="registerWithGoogle()" class="google-btn">
+        Registrarse con Google
+      </button>
+    </div>
+  `
 })
 export class RegistroComponent {
-  username: string = '';
-  password: string = '';
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-  onSubmit() {
-    console.log('Username:', this.username);
-    console.log('Password:', this.password);
-    // Lógica de registro aquí
+  async registerWithGoogle() {
+    try {
+      await this.authService.registerWithGoogle();
+      this.router.navigate(['/inicio']);
+    } catch (error) {
+      console.error('Error al registrarse:', error);
+      // Aquí puedes mostrar un mensaje de error al usuario
+    }
   }
 }

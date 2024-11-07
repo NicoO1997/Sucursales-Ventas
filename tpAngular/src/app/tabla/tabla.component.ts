@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SucursalesService } from '../sucursales.service';
+import { AuthService } from '../auth.service';
 import { forkJoin } from 'rxjs';
 
 interface Venta {
@@ -46,10 +47,18 @@ export class TablaComponent implements OnInit {
     originalValue: 0
   };
 
-  constructor(private sucursalService: SucursalesService) {}
+  isAdmin: boolean = false;
+
+  constructor(
+    private sucursalService: SucursalesService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.cargarDatos();
+    this.authService.user$.subscribe((user) => {
+      this.isAdmin = this.authService.isAdmin(user);
+    });
   }
 
   cargarDatos() {
@@ -74,7 +83,7 @@ export class TablaComponent implements OnInit {
   }
 
   onCellClick(rowIndex: number, colIndex: number): void {
-    if (!this.editState.isEditing && this.datos[rowIndex] && this.datos[rowIndex][colIndex] !== undefined) {
+    if (this.isAdmin && !this.editState.isEditing && this.datos[rowIndex] && this.datos[rowIndex][colIndex] !== undefined) {
       this.editState = {
         isEditing: true,
         rowIndex,
@@ -82,6 +91,8 @@ export class TablaComponent implements OnInit {
         value: this.datos[rowIndex][colIndex],
         originalValue: this.datos[rowIndex][colIndex]
       };
+    } else if (!this.isAdmin) {
+      alert('No tienes permisos para editar ventas');
     }
   }
 
