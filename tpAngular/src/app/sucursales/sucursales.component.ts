@@ -1,4 +1,3 @@
-// sucursales.component.ts
 import { Component, OnInit } from '@angular/core';
 import { SucursalesService } from '../sucursales.service';
 import { ModalService } from '../modal.service';
@@ -76,6 +75,10 @@ export class SucursalesComponent implements OnInit {
 
   guardarSucursal() {
     if (this.isAdmin) {
+      if (this.nuevaSucursal.cantidadEmpleados < 0) {
+        alert('La cantidad de empleados no puede ser menor a 0.');
+        return;
+      }
 
       if (this.nuevaSucursal.nombre.trim() && this.nuevaSucursal.direccion.trim()) {
         const operacion = this.modoEdicion

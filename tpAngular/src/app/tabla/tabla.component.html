@@ -27,7 +27,9 @@
             <input type="number" 
                    [(ngModel)]="editState.value" 
                    class="edit-input"
-                   (click)="$event.stopPropagation()">
+                   (click)="$event.stopPropagation()"
+                   (keyup.enter)="confirmarEdit(); $event.stopPropagation()"
+                   (keyup.escape)="cancelEdit(); $event.stopPropagation()">
             <div class="edit-buttons">
               <button (click)="confirmarEdit(); $event.stopPropagation()" class="btn-confirm">✓</button>
               <button (click)="cancelEdit(); $event.stopPropagation()" class="btn-cancel">✗</button>
