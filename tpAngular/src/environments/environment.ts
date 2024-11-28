@@ -8,12 +8,12 @@ import { initializeApp } from "firebase/app";
 export const environment = {
     production: false,
     firebase: {
-      apiKey: "AIzaSyDhTd85C9rWm2GT541WILtE02fju33W8I4",
-      authDomain: "tpangular-86004.firebaseapp.com",
-      projectId: "tpangular-86004",
-      storageBucket: "tpangular-86004.firebasestorage.app",
-      messagingSenderId: "1067203427339",
-      appId: "1:1067203427339:web:0594caecb768916b9a1b0e"
+      apiKey: "",
+      authDomain: "",
+      projectId: "",
+      storageBucket: "",
+      messagingSenderId: "",
+      appId: ""
     }
   };
 
